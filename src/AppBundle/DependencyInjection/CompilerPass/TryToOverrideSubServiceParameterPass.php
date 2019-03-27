@@ -9,17 +9,16 @@ class TryToOverrideSubServiceParameterPass implements CompilerPassInterface
 {
     private const BUGGED_SERVICES = [
         'app.first_bugged_sub_class' => 1,
-        'app.second_bugged_sub_class' => '$additionalParameter',
     ];
 
-    private const OVERRIDE_VALUE = 'a third parameter';
+    private const OVERRIDE_VALUE = ['a third parameter'];
 
     public function process(ContainerBuilder $container)
     {
         foreach (self::BUGGED_SERVICES as $serviceId => $argument) {
-            try {
-                $service = $container->getDefinition($serviceId);
+            $service = $container->getDefinition($serviceId);
 
+            try {
                 $service->replaceArgument($argument, array_merge(
                     $service->getArgument($argument),
                     self::OVERRIDE_VALUE
