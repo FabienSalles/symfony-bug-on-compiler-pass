@@ -1,0 +1,23 @@
+# Learn more about services, parameters and containers at
+# https://symfony.com/doc/current/service_container.html
+parameters:
+    #parameter_name: value
+
+services:
+    ## My externals services with ids
+    app.root_class:
+        class: AppBundle\Example\MyRootClass
+        arguments:
+            - '@logger'
+
+    app.first_bugged_sub_class:
+        class: AppBundle\Example\MySubClass
+        parent: app.root_class
+        arguments:
+            - ['a first parameter', 'a second parameter']
+
+    app.second_bugged_sub_class:
+        class: AppBundle\Example\MySubClass
+        parent: app.root_class
+        arguments:
+            $additionalParameter: ['a first parameter', 'a second parameter']
